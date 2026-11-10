@@ -1,6 +1,6 @@
 # 🛡️ LossGuard AI — Central de Auditoria Financeira & Conciliação Delivery
 
-> **Plataforma de inteligência operacional, automação de disputas e proteção de margem para operações de delivery e restaurantes.**
+> **Plataforma B2B de auditoria financeira, automação de disputas contratuais e proteção de margem para restaurantes e operações de delivery.**
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square&logo=typescript)
@@ -10,26 +10,38 @@
 
 ---
 
-## 🎯 O Problema Real de Negócio
+## 📌 Resumo Executivo (TL;DR)
 
-No ecossistema de delivery (iFood, Rappi, etc.), restaurantes e operações de alimentação perdem mensalmente entre **1.8% e 3.4% do faturamento bruto** com:
-- **Cancelamentos unilaterais e indevidos**: Clientes cancelam quando a refeição já está em rota com o entregador parceiro, e o suporte automatizado concede o estorno sem validar a devolução física do alimento.
-- **Falta de contestação por atrito operacional**: Cada contestação manual exige cruzar logs de preparo da cozinha, horário de despacho e regras contratuais, consumindo cerca de **25 minutos de um gerente ou analista** por chamado.
-- **Perda silenciosa de margem**: Dezenas de pedidos deixam de ser contestados antes do prazo fatal de 48h/72h da plataforma, gerando prejuízos acumulados de milhares de reais ao mês.
+- **O que é o projeto:** Uma solução fullstack de backoffice financeiro e inteligência de operações desenvolvida para restaurantes, dark kitchens e redes de franquias que operam em marketplaces de delivery (iFood, Rappi, etc.).
+- **O que ele faz:** Inspeciona automaticamente cada cancelamento de pedido, cruza a telemetria da cozinha com a rota do motoboy parceiro, detecta estornos indevidos e aciona um **Agente de IA com Tool Calling** que redige minutas jurídicas fundamentadas no Código de Defesa do Consumidor (CDC) para contestação em lote.
+- **Qual problema resolve:** Estima-se que restaurantes percam **1.8% a 3.4% do faturamento bruto mensal** em estornos indevidos. Como cada contestação manual consome ~25 minutos de um gerente, a maioria das perdas nunca é contestada. O LossGuard reduz esse tempo para **30 segundos**, recuperando até 96% dos valores contestáveis.
 
-**O LossGuard resolve isso na ponta:** ele cruza a telemetria do pedido com o motor de regras da plataforma, identifica anomalias em milissegundos e aciona o **LossGuard AI Agent**, que redige e despacha recursos formais embasados no Código de Defesa do Consumidor (CDC) e nos termos do parceiro.
+---
+
+## 🔄 Fluxo de Funcionamento da Solução
+
+```mermaid
+flowchart LR
+    A["📦 Pedido Cancelado (iFood/Webhook)"] --> B["⚙️ Motor de Conciliação"]
+    B --> C{"Análise de Telemetria"}
+    C -->|"Cancelado em Rota sem devolução"| D["🤖 LossGuard AI Agent"]
+    C -->|"Estouro de SLA de Cozinha"| E["📉 Perda Operacional Interna"]
+    D --> F["⚖️ Parecer Contratual + Minuta Formal"]
+    F --> G["🚀 Despacho ao Portal do Parceiro"]
+    G --> H["💰 Crédito Compensatório Recuperado"]
+```
 
 ---
 
 ## 🏗️ Como o Projeto Cumpre os 5 Pilares de Portfólio
 
-| Pilar | Como foi implementado | Impacto Mensurável |
+| Pilar | Como foi implementado no projeto | Impacto Mensurável |
 | :--- | :--- | :--- |
-| **1. Automação com Economia de Horas Reais** | Ingestão contínua de relatórios/webhooks e cruzamento automatizado de telemetria (Cozinha vs Rota vs Cancelamento). | Reduz o tempo de análise e formulação de contestação de **25 minutos para 30 segundos** por pedido (~15 horas/mês economizadas). |
-| **2. Ferramenta Interna Deployada (Backoffice)** | Painel completo de operações com workflow de disputas (`Pendente`, `Em Disputa`, `Ressarcido`, `Perda Interna`), logs de auditoria e ações controladas. | Elimina planilhas paralelas e descentralizadas no time de atendimento/financeiro. |
-| **3. Dashboard Funcional Executivo** | Visualização de indicadores-chave: Capital em Risco, Capital Recuperado, Taxa de Reversão de Disputas e distribuição horária dos incidentes. | Identifica causas-raiz operacionais (ex: gargalo de espera por entregador entre 12h e 14h). |
-| **4. Agente de Negócios com IA (Tool Calling)** | Agente autônomo com ferramentas especializadas (`telemetry_verifier`, `marketplace_policy_matcher`, `dispute_draft_generator`). | Gera contestações técnicas formais com 96% de assertividade jurídica perante as regras do iFood. |
-| **5. Demo de Produto Construído em 1 Dia** | Aplicação fullstack moderna construída em Next.js 16, TypeScript, Tailwind CSS, com dados realistas pré-carregados e deploy em 1 clique na Vercel. | Pronto para demonstração imediata a recrutadores, clientes e investidores. |
+| **1. Automação (Horas Reais Economizadas)** | Motor de ingestão e conciliação que cruza registros de produção vs despacho vs cancelamento. Identifica anomalias contratuais instantaneamente. | Reduz o tempo de auditoria de **25 minutos para 30 segundos** por ocorrência (~15 horas mensais economizadas). |
+| **2. Ferramenta Interna Deployada (Backoffice)** | Painel operacional com controle de estados (`Pendente`, `Em Disputa`, `Ressarcido`, `Perda Confirmada`), filtros rápidos e logs de auditoria cronológicos. | Centraliza e substitui o controle descentralizado em planilhas ou blocos de notas. |
+| **3. Dashboard Funcional Executivo** | Painel analítico com KPIs de capital em risco, total recuperado, taxa de conversão e gráficos de causas-raiz por horário. | Aponta gargalos logísticos (ex: 71% dos cancelamentos concentrados no pico de almoço). |
+| **4. Agente de Negócios (IA + Tool Calling)** | Agente autônomo com ferramentas dedicadas (`telemetry_verifier`, `marketplace_policy_matcher`, `dispute_draft_generator`) e assistente em chat para dúvidas do operador. | Gera contestações técnicas e embasadas com mais de 90% de assertividade nas regras da plataforma. |
+| **5. Demo de Produto Construído em 1 Dia** | Aplicação completa em Next.js 16 + TypeScript + Tailwind CSS, com dados realistas pré-configurados e build de produção testado. | Pronto para deploy em 1 clique na Vercel e demonstração interativa. |
 
 ---
 
@@ -38,30 +50,30 @@ No ecossistema de delivery (iFood, Rappi, etc.), restaurantes e operações de a
 O motor de conciliação do LossGuard avalia automaticamente 3 regras principais:
 
 1. **Regra do Perecível em Rota (`RULE_IN_ROUTE_NO_RETURN`):**
-   Se o cancelamento foi deferido após o horário de saída do motoboy (`canceledAt > dispatchedAt`) e não houve devolução física ao restaurante, o marketplace é integralmente responsável pelo valor dos itens e taxa de entrega (Art. 49 CDC c/c Termos de Parceria).
+   Se o cancelamento foi deferido após a saída do motoboy (`canceledAt > dispatchedAt`) e não houve devolução física ao restaurante, o marketplace é integralmente responsável pelo valor dos itens e taxa de entrega (Art. 49 CDC c/c Termos de Parceria).
 2. **Conformidade de SLA da Cozinha (`RULE_PREP_SLA_OK`):**
-   Valida se a expedição cumpriu o prazo limite contratual (<= 30 min). Se a cozinha cumpriu e o atraso foi da logística parceira da plataforma, a perda é 100% elegível para reembolso.
+   Valida se a cozinha cumpriu o prazo limite contratual (<= 30 min). Se a cozinha cumpriu e o atraso foi da logística parceira da plataforma, a perda é 100% elegível para reembolso.
 3. **Cancelamento Sumário por Bot (`RULE_BOT_ARBITRARY_CANCEL`):**
-   Detecta estornos concedidos automaticamente por inteligência artificial do SAC sem validação de código de confirmação (PIN) ou foto de comprovação.
+   Detecta estornos concedidos automaticamente pelo SAC do marketplace sem validação de código PIN de segurança ou foto de comprovação.
 
 ---
 
 ## 🚀 Como Executar Localmente
 
 ### Pré-requisitos
-- Node.js 18+ (testado com Node v26)
+- Node.js 18+ (testado e homologado com Node v26)
 - npm ou pnpm
 
-### Instalação
+### Passo a Passo
 ```bash
 # 1. Clonar o repositório
-git clone https://github.com/seu-usuario/lossguard-delivery.git
+git clone https://github.com/SEU_USUARIO/lossguard-delivery.git
 cd lossguard-delivery
 
 # 2. Instalar dependências
 npm install
 
-# 3. Iniciar o servidor de desenvolvimento
+# 3. Iniciar o servidor local
 npm run dev
 ```
 
@@ -69,24 +81,32 @@ Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o 
 
 ---
 
-## 🌐 Deploy na Vercel (1 Clique)
+## 🌐 Como Publicar no GitHub e na Vercel
 
-Este projeto foi desenvolvido com Next.js 16 (Turbopack) sem dependências externas de infraestrutura pesada, pronto para rodar serverless:
+### 1. Criar repositório público no GitHub:
+1. Acesse [github.com/new](https://github.com/new).
+2. Nomeie o repositório como `lossguard-delivery` (marque como **Público** e **não** adicione README ou gitignore pois o projeto já possui).
+3. No terminal da pasta do projeto, execute:
+```bash
+git remote add origin https://github.com/SEU_USUARIO/lossguard-delivery.git
+git push -u origin main
+```
 
-1. Suba o código para o seu GitHub.
-2. Acesse [vercel.com/new](https://vercel.com/new).
-3. Importe o repositório e clique em **Deploy**.
+### 2. Deploy na Vercel (1 Clique):
+1. Acesse [vercel.com/new](https://vercel.com/new).
+2. Conecte sua conta do GitHub e selecione o repositório `lossguard-delivery`.
+3. Clique em **Deploy**. A plataforma já detectará Next.js automaticamente.
 
 ---
 
-## 📂 Estrutura do Código
+## 📂 Arquitetura do Repositório
 
 ```text
 src/
 ├── app/
-│   ├── globals.css         # Tema escuro e identidade visual de delivery
-│   ├── layout.tsx          # Metadados e SEO
-│   └── page.tsx            # View principal do produto
+│   ├── globals.css              # Tema escuro e identidade visual com Tailwind CSS v4
+│   ├── layout.tsx               # Metadados e SEO da plataforma
+│   └── page.tsx                 # View principal do produto (Dashboard + Backoffice)
 ├── components/
 │   ├── Header.tsx               # Barra de status, telemetria de webhooks e atalhos
 │   ├── MetricsCards.tsx         # 4 Cards executivos de ROI e horas economizadas
@@ -96,12 +116,12 @@ src/
 │   ├── ImportCsvModal.tsx       # Motor de conciliação e ingestão em lote
 │   └── AiAgentChatDrawer.tsx    # Chat interativo com o LossGuard AI Specialist
 ├── data/
-│   └── mockOrders.ts       # Dataset de incidentes reais de delivery em SP
+│   └── mockOrders.ts            # Dataset de incidentes reais de delivery em SP
 ├── lib/
-│   ├── reconciliation.ts   # Motor de cálculo financeiro e regras de negócio
-│   └── agent.ts            # Agente de IA com simulação de Tool Calling
+│   ├── reconciliation.ts        # Motor de cálculo financeiro e regras de negócio
+│   └── agent.ts                 # Agente de IA com simulação de Tool Calling
 └── types/
-    └── index.ts            # Tipagens TypeScript completas do domínio
+    └── index.ts                 # Tipagens TypeScript completas do domínio
 ```
 
 ---
